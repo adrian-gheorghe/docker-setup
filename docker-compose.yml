@@ -6,6 +6,7 @@ networks:
 
 services:
   traefik:
+    container_name: traefik
     image: traefik:1.7
     command:
       - "--docker"
@@ -30,6 +31,7 @@ services:
   whoami:
     image: emilevauge/whoami  # A container that exposes an API to show it's IP address
     hostname: whoami.localhost
+    container_name: whoami
     restart: always
     labels:
       - "traefik.enable=true"
@@ -43,6 +45,7 @@ services:
   portainer:
     image: portainer/portainer  # A container that exposes an API to show it's IP address
     hostname: portainer.localhost
+    container_name: portainer
     restart: always
     labels:
       - "traefik.enable=true"
