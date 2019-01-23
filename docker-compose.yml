@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+    traefik-local:
+      external: true
+
+services:
+  traefik:
+    image: traefik:1.7
+    command:
+      - "--docker"
+      - "--docker.endpoint=unix:///var/run/docker.sock"
+      - "--api"
+      - "--logLevel=DEBUG"
+    ports:
+      - "80:80"      # The HTTP port
+      - "8080:8080"  # The Web UI (enabled by --api)
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
+      - ./traefik.toml:/etc/traefik/traefik.toml
+      - ./traefik.crt:/etc/traefik/traefik.crt
+      - ./traefik.key:/etc/traefik/traefik.key
+    networks:
+      - traefik-local
+    labels:
+      - "traefik.enable=false"
+    restart: always
+  # A container that exposes a simple API
+  whoami:
+    image: emilevauge/whoami  # A container that exposes an API to show it's IP address
+    hostname: whoami.localhost
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.basic.port=80"
+      - "traefik.basic.protocol=http"
+      - "traefik.backend=whaomi"
+      - "traefik.frontend.rule=Host:whoami.localhost"
+      - "traefik.docker.network=traefik-local"
+    networks:
+      - traefik-local
+  portainer:
+    image: portainer/portainer  # A container that exposes an API to show it's IP address
+    hostname: portainer.localhost
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.basic.port=9000"
+      - "traefik.basic.protocol=http"
+      - "traefik.backend=portainer"
+      - "traefik.frontend.rule=Host:portainer.localhost"
+      - "traefik.docker.network=traefik-local"
+    networks:
+      - traefik-local
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker-development-environment/portainer:/data
