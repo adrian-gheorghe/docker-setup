@@ -2,6 +2,8 @@
 
 Author: Adrian Gheorghe <adrian.gheorghe.dev@gmail.com>
 
+[![CircleCI](https://circleci.com/gh/adrian-gheorghe/docker-setup.svg?style=svg)](https://circleci.com/gh/adrian-gheorghe/docker-setup)
+
 ### Info
 This setup is the base for all other docker based images and setups created by me and should make development using docker containers a lot easier. Using this base setup you will not have to keep track of ports or hostnames when setting up a new project. Using [Traefik](https://traefik.io/ "Traefik") as a load balancer you'll be able to use port 80 to access all your web containers. Also you'll be able to use subdomains of the following form: http://container.localhost.
 
