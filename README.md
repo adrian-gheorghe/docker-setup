@@ -47,3 +47,5 @@ http://localhost:8080/dashboard/ - web ui for traefik
 ## Container setups that plug into this
 
 List of containers that plug into this.
+
+Go Environment - https://github.com/adrian-gheorghe/docker-go
