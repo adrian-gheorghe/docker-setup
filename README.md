@@ -34,8 +34,9 @@ docker network create traefik-local
 ```
 
 ### Raise Containers
+```bash
 docker-compose up -d
-
+```
 
 ### Access
 After creating the network and running docker-compose up you will be able to access the containers using the following addresses. Install portainer by setting a user/pass and set it to use your local stack and you are good to go!
@@ -43,6 +44,18 @@ After creating the network and running docker-compose up you will be able to acc
 http://whoami.localhost/ - whoami container
 http://portainer.localhost/ - portainer ui for container management
 http://localhost:8080/dashboard/ - web ui for traefik
+
+#### Caveat
+.localhost urls route automatically in Google Chrome. In order to access containers using their .localhost domains in other browsers and cli you will need to edit your /etc/hosts file and point them to 127.0.0.1
+
+```bash
+127.0.0.1 portainer.localhost whoami.localhost
+```
+
+If using /etc/hosts you can change domains to any format you want.
+
+#### Caveat #2
+You should not be versioning private keys or certificates. I've only done this here since it will only be used for development purposes and on a local environment. These keys should not be used on any environment.
 
 ## Container setups that plug into this
 
